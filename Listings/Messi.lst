@@ -1,0 +1,104 @@
+C51 COMPILER V9.60.0.0   MESSI                                                             05/21/2020 18:50:53 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE MESSI
+OBJECT MODULE PLACED IN .\Objects\Messi.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE Messi.C OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\Mes
+                    -si.lst) TABS(2) OBJECT(.\Objects\Messi.obj)
+
+line level    source
+
+   1          //Messi counter
+   2          //this code give the number of times a switch is pressed
+   3          #include <Reg52.h>
+   4          
+   5          #define count_port P3
+   6          sbit Switch_pin = P1^0;
+   7          
+   8          #define Switch_not_pressed (bit) 0
+   9          #define Switch_pressed (bit) 1
+  10          
+  11          // function prototypes
+  12          
+  13          void Switch_init(void);
+  14          bit get_input(const unsigned char);
+  15          void Display_Count_init(void);
+  16          void Display_Count_Update(const unsigned char );
+  17          void Delay_Loop(const unsigned int);
+  18          
+  19          // main funtion
+  20          void main(void){
+  21   1        // counter for switch press
+  22   1        unsigned char Sw_press = 0;
+  23   1          
+  24   1          Switch_init();
+  25   1          Display_Count_init();
+  26   1          while(1){
+  27   2      
+  28   2            if(get_input(30) == Switch_pressed){
+  29   3              Sw_press++;
+  30   3            }
+  31   2            Display_Count_Update(Sw_press);
+  32   2          } 
+  33   1      }
+  34          
+  35          // funtion definitions
+  36          
+  37          void Switch_init(void){
+  38   1        Switch_pin = 1;
+  39   1      
+  40   1      }
+  41          
+  42          bit get_input(const unsigned char Debounce_period){
+  43   1        // this will tell me if switch is on or not 
+  44   1        bit return_value = Switch_not_pressed;
+  45   1        if(Switch_pin == 0){
+  46   2          Delay_Loop(Debounce_period);
+  47   2      
+  48   2          if(Switch_pin == 0){
+  49   3            while(Switch_pin==0);
+  50   3            return_value = Switch_pressed;
+  51   3          }
+  52   2      
+  53   2      
+  54   2        }
+C51 COMPILER V9.60.0.0   MESSI                                                             05/21/2020 18:50:53 PAGE 2   
+
+  55   1        return return_value;
+  56   1      }
+  57          
+  58          void Display_Count_init(void){
+  59   1        count_port = 0x00;
+  60   1      }
+  61          
+  62          void Display_Count_Update(const unsigned char COUNT ){
+  63   1        count_port = COUNT;
+  64   1      
+  65   1      }
+  66          
+  67          void Delay_Loop(const unsigned int Delay_MS){
+  68   1      
+  69   1        unsigned int x,y;
+  70   1        for(x = 0;x <= Delay_MS; x++)
+  71   1        {
+  72   2          for(y = 0; y <= 120 ; y++);
+  73   2        }
+  74   1      }
+  75          
+  76          
+  77          
+  78          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     88    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       1
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----       1
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,47 @@
+C51 COMPILER V9.60.0.0   1ST                                                               05/21/2020 02:19:32 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE 1ST
+OBJECT MODULE PLACED IN .\Objects\1st.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE 1st.C OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\1st.l
+                    -st) TABS(2) OBJECT(.\Objects\1st.obj)
+
+line level    source
+
+   1          /*------------------------------------------------------------*-
+   2          Bytes.C (v1.00)
+   3          -------------------------------------------------------------
+   4          Reads from P1 and copies the value to P2.
+   5          -*------------------------------------------------------------*/
+   6          #include <Reg52.H>
+   7          /* ......................................................... */
+   8          void main (void)
+   9          {
+  10   1      unsigned char Port1_value;
+  11   1      // Must set up P1 for reading
+  12   1      P1 = 0xFF;
+  13   1      while(1)
+  14   1      {
+  15   2      // Read the value of P1
+  16   2      Port1_value = P1;
+  17   2      // Copy the value to P2
+  18   2      P2 = Port1_value;
+  19   2      }
+  20   1      }
+  21          /*------------------------------------------------------------*-
+  22          ---- END OF FILE ---------------------------------------------
+  23          -*------------------------------------------------------------*/ 
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =      9    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

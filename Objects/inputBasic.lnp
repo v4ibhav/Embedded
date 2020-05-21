@@ -1,0 +1,3 @@
+".\Objects\Messi.obj" 
+TO ".\Objects\inputBasic" 
+PRINT(".\Listings\inputBasic.m51") RAMSIZE(256) 

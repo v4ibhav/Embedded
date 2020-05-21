@@ -1,0 +1,129 @@
+C51 COMPILER V9.60.0.0   SWITCH                                                            05/21/2020 16:44:33 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE SWITCH
+OBJECT MODULE PLACED IN .\Objects\switch.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE switch.C OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\sw
+                    -itch.lst) TABS(2) OBJECT(.\Objects\switch.obj)
+
+line level    source
+
+   1          #include <Reg52.h>
+   2          sbit Switch_pin = P1^0;
+   3          // Display switch status on this port
+   4          #define Output_port P3
+   5          // Return values from Switch_Get_Input()
+   6          #define SWITCH_NOT_PRESSED (bit) 0
+   7          #define SWITCH_PRESSED (bit) 1
+   8          // Function prototypes
+   9          void SWITCH_Init(void);
+  10          bit SWITCH_Get_Input(const unsigned char DEBOUNCE_PERIOD);
+  11          void DISPLAY_SWITCH_STATUS_Init(void);
+  12          void DISPLAY_SWITCH_STATUS_Update(const bit);
+  13          void DELAY_LOOP_Wait(const unsigned int DELAY_MS);
+  14          /* --------------------------------------------------------- */
+  15          void main(void)
+  16          {
+  17   1      bit Sw_state;
+  18   1      // Init functions
+  19   1      SWITCH_Init();
+  20   1      DISPLAY_SWITCH_STATUS_Init();
+  21   1      while(1)
+  22   1      {
+  23   2      Sw_state = SWITCH_Get_Input(30);
+  24   2      DISPLAY_SWITCH_STATUS_Update(Sw_state);
+  25   2      }
+  26   1      }
+  27          /*------------------------------------------------------------*-
+  28          SWITCH_Init()
+  29          Initialisation function for the switch library.
+  30          -*------------------------------------------------------------*/
+  31          void SWITCH_Init(void)
+  32          {
+  33   1      Switch_pin = 1; // Use this pin for input
+  34   1      }
+  35          /*------------------------------------------------------------*-
+  36          SWITCH_Get_Input()
+  37          Reads and debounces a mechanical switch as follows:
+  38          . If switch is not pressed, return SWITCH_NOT_PRESSED.
+  39          2. If switch is pressed, wait for DEBOUNCE_PERIOD (in ms),
+  40          then:
+  41          a. If switch is still pressed, return SWITCH_PRESSED.
+  42          b. If switch is not pressed, return SWITCH_NOT_PRESSED
+  43          See Switch_Wait.H for details of return values.
+  44          -*------------------------------------------------------------*/
+  45          bit SWITCH_Get_Input(const unsigned char DEBOUNCE_PERIOD)
+  46          {
+  47   1      bit Return_value = SWITCH_NOT_PRESSED;
+  48   1      if (Switch_pin == 0)
+  49   1      {
+  50   2      // Switch is pressed
+  51   2      // Debounce – just wait...
+  52   2      DELAY_LOOP_Wait(DEBOUNCE_PERIOD);
+  53   2      // Check switch again
+  54   2      if (Switch_pin == 0)
+C51 COMPILER V9.60.0.0   SWITCH                                                            05/21/2020 16:44:33 PAGE 2   
+
+  55   2      {
+  56   3      Return_value = SWITCH_PRESSED;
+  57   3      }
+  58   2      }
+  59   1      // Now return switch value
+  60   1      return Return_value;
+  61   1      }
+  62          /*------------------------------------------------------------*-
+  63          DISPLAY_SWITCH_STATUS_Init()
+  64          Initialization function for the DISPLAY_SWITCH_STATUS library.
+  65          -*------------------------------------------------------------*/
+  66          void DISPLAY_SWITCH_STATUS_Init(void)
+  67          {
+  68   1      Output_port = 0xF0;
+  69   1      }
+  70          /*------------------------------------------------------------*-
+  71          DISPLAY_SWITCH_STATUS_Update()
+  72          Simple function to display data (SWITCH_STATUS)
+  73          on LEDs connected to port (Output_Port)
+  74          -*------------------------------------------------------------*/
+  75          void DISPLAY_SWITCH_STATUS_Update(const bit SWITCH_STATUS)
+  76          {
+  77   1      if (SWITCH_STATUS == SWITCH_PRESSED)
+  78   1      {
+  79   2      Output_port = 0x0F;
+  80   2      }
+  81   1      else
+  82   1      {
+  83   2      Output_port = 0xF0;
+  84   2      }
+  85   1      }
+  86          /*------------------------------------------------------------*-
+  87          DELAY_LOOP_Wait()
+  88          Delay duration varies with parameter.
+  89          Parameter is, *ROUGHLY*, the delay, in milliseconds,
+  90          on 12MHz 8051 (12 osc cycles).
+  91          You need to adjust the timing for your application!
+  92          -*------------------------------------------------------------*/
+  93          void DELAY_LOOP_Wait(const unsigned int DELAY_MS)
+  94          {
+  95   1      unsigned int x, y;
+  96   1      for (x = 0; x <= DELAY_MS; x++)
+  97   1      {
+  98   2      for (y = 0; y <= 120; y++);
+  99   2      }
+ 100   1      }
+ 101          /*------------------------------------------------------------*-
+ 102          ---- END OF FILE --------------------------------------------
+ 103          -*------------------------------------------------------------*/
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     90    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----       3
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
